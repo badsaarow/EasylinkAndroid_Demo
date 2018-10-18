@@ -26,7 +26,7 @@
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:padding="15dp"
-        android:text="发送配网"
+        android:text="Start EasyLink"
         android:textColor="#FFFFFF" />
 
     <EditText

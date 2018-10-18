@@ -19,11 +19,9 @@ import io.fogcloud.sdk.easylink.helper.EasyLinkParams;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String TAG = "---main---";
-    private Context mContext;// 上下文
+    private final String TAG = "---main---";
+    private Context mContext;
     private EditText log_view;
-    private int countno;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         final TextView easylinktest = (TextView) findViewById(R.id.easylinktest);
-//        TextView easylinkstop = (TextView) findViewById(R.id.easylinkstop);
 
         final EditText psw = (EditText) findViewById(R.id.psw);
         final EditText ssid = (EditText) findViewById(R.id.ssid);
@@ -54,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
             easylinktest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (easylinktest.getText().toString().equalsIgnoreCase("发送配网")) {
-                        easylinktest.setText("关闭配网");
+                    if (easylinktest.getText().toString().equalsIgnoreCase("Start EasyLink")) {
+                        easylinktest.setText("Stop EasyLink");
                         easylinktest.setBackgroundColor(Color.rgb(255, 0, 0));
                         EasyLinkParams elp = new EasyLinkParams();
                         elp.ssid = ssid.getText().toString().trim();
@@ -67,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                         elp2p.startEasyLink(elp, new EasyLinkCallBack() {
                             @Override
                             public void onSuccess(int code, String message) {
-//                                Log.d(TAG,">>>>>>>>>>");
+                                Log.d(TAG,"onSuccess");
                                 Log.d(TAG, message);
                                 send2handler(1, message);
                             }
@@ -79,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                     } else {
-                        easylinktest.setText("发送配网");
+                        easylinktest.setText("Start EasyLink");
                         easylinktest.setBackgroundColor(Color.rgb(63, 81, 181));
                         Toast.makeText(mContext, "stop easylink", Toast.LENGTH_SHORT).show();
                         elp2p.stopEasyLink(new EasyLinkCallBack() {

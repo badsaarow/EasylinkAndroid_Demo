@@ -19,6 +19,7 @@ import android.widget.Toast
 
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 
 import io.fogcloud.sdk.easylink.api.EasyLink
 import io.fogcloud.sdk.easylink.api.EasylinkP2P
@@ -50,8 +51,12 @@ class SktEasyLinkActivity : AppCompatActivity() {
                 editTextLog!!.setText(jsonStr.trim { it <= ' ' } + "\r\n")
                 stopEasyLink(elp2p!!)
 
-                val easyLinkResponse : EasyLinkResponse = Gson().fromJson(jsonStr, EasyLinkResponse::class.java)
-                SocketTask().execute(easyLinkResponse)
+                try {
+                    val easyLinkResponse: EasyLinkResponse = Gson().fromJson(jsonStr, EasyLinkResponse::class.java)
+                    SocketTask().execute(easyLinkResponse)
+                } catch (e: JsonSyntaxException) {
+                    Log.e("invalid json", jsonStr);
+                }
             }
             if (msg.what == 2) {
                 //do nothing

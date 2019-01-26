@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "913916391598",
+    "firebase_url": "https://smarthome-humminglab.firebaseio.com",
+    "project_id": "smarthome-humminglab",
+    "storage_bucket": "smarthome-humminglab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913916391598:android:bfb145979cb86e47",
+        "android_client_info": {
+          "package_name": "io.fogcloud.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "913916391598-d6t04ulehg6rs5lu2vk3ijdblr9o0pbd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAufxOyytegL24m3fwfInz3mVQ_ECfQjHI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -17,7 +17,7 @@
         android:id="@+id/psw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="010263499010"
+        android:text="6GZrq*BR"
         android:hint="password"/>
 
     <TextView

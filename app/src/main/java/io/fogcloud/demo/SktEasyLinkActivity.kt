@@ -18,6 +18,7 @@ import android.widget.TextView
 import android.widget.Toast
 
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.gson.Gson
 
 import io.fogcloud.sdk.easylink.api.EasyLink
 import io.fogcloud.sdk.easylink.api.EasylinkP2P
@@ -45,10 +46,12 @@ class SktEasyLinkActivity : AppCompatActivity() {
             Log.d(TAG, "handleMessage what:" + msg.what)
             if (msg.what == 1) {
                 //폰 정보 수신 완료
-                editTextLog!!.setText(msg.obj.toString().trim { it <= ' ' } + "\r\n")
+                val jsonStr = msg.obj.toString()
+                editTextLog!!.setText(jsonStr.trim { it <= ' ' } + "\r\n")
                 stopEasyLink(elp2p!!)
 
-                SocketTask().execute()
+                val easyLinkResponse : EasyLinkResponse = Gson().fromJson(jsonStr, EasyLinkResponse::class.java)
+                SocketTask().execute(easyLinkResponse)
             }
             if (msg.what == 2) {
                 //do nothing
@@ -56,15 +59,17 @@ class SktEasyLinkActivity : AppCompatActivity() {
         }
     }
 
-    class SocketTask : AsyncTask<Void, Void, String>() {
+    class SocketTask : AsyncTask<EasyLinkResponse, Void, String>() {
         private var socket : Socket? = null
         private var networkReader: BufferedReader? = null
 
-        override fun doInBackground(vararg p0: Void?): String {
+        override fun doInBackground(vararg params: EasyLinkResponse?): String {
+            val p0 : EasyLinkResponse = params.get(0)!!
+            Log.d("SocketTask", p0.IP)
             try {
-                socket = Socket("192.168.9.36", 5000)
+                socket = Socket(p0.IP, 5000)
             } catch (e: Exception) {
-                Log.e("SocketTask", "Exception:" + e.toString());
+                Log.e("SocketTask", "Exception:" + e.toString())
             }
 
             networkReader = BufferedReader(InputStreamReader(socket!!.getInputStream()))
@@ -81,7 +86,7 @@ class SktEasyLinkActivity : AppCompatActivity() {
             try {
                 dos.write(payload, 0, payload.size)
             } catch (e: Exception) {
-                Log.e("SocketTask", "Exception:" + e.toString());
+                Log.e("SocketTask", "Exception:" + e.toString())
             }
             return ""
         }
@@ -110,14 +115,14 @@ class SktEasyLinkActivity : AppCompatActivity() {
         }
 
         //go to Mqtt Test
-        val buttonGotoMqtt = findViewById(R.id.button_goto_mqtt) as Button?
+        val buttonGotoMqtt = findViewById(R.id.button_goto_mqtt)
         buttonGotoMqtt!!.setOnClickListener { view ->
             val newIntent = Intent(this, LoginActivity::class.java)
             startActivity(newIntent)
         }
 
         if ((textViewEasyLink == null) or (ssid == null) or (psw == null)) {
-            return;
+            return
         }
 
         textViewEasyLink!!.setOnClickListener {

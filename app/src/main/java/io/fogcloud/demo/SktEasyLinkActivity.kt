@@ -56,6 +56,7 @@ class SktEasyLinkActivity : AppCompatActivity() {
                     SocketTask().execute(easyLinkResponse)
                 } catch (e: JsonSyntaxException) {
                     Log.e("invalid json", jsonStr);
+                    Toast.makeText(this@SktEasyLinkActivity, "invalid Json string", Toast.LENGTH_LONG).show()
                 }
             }
             if (msg.what == 2) {

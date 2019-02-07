@@ -4,20 +4,17 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-
 import com.google.firebase.analytics.FirebaseAnalytics
-
 import io.fogcloud.sdk.easylink.api.EasyLink
 import io.fogcloud.sdk.easylink.api.EasylinkP2P
 import io.fogcloud.sdk.easylink.helper.EasyLinkCallBack
@@ -142,7 +139,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun send2handler(code: Int, message: String) {
-        Log.d(TAG, "send2handler code:" + code + ", message:" + message)
+        Log.d(TAG, "send2handler code:$code, message:$message")
 
         val msg = Message()
         msg.what = code

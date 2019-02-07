@@ -221,8 +221,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         val PROJECTION = arrayOf(
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
                 ContactsContract.CommonDataKinds.Email.IS_PRIMARY)
-        val ADDRESS = 0
-        val IS_PRIMARY = 1
+        const val ADDRESS = 0
     }
 
     /**

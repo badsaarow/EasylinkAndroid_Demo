@@ -55,7 +55,7 @@ class SktEasyLinkActivity : AppCompatActivity() {
                     val easyLinkResponse: EasyLinkResponse = Gson().fromJson(jsonStr.replace("[^\\x0A\\x0D\\x20-\\x7E]", ""), EasyLinkResponse::class.java)
                     SocketTask().execute(easyLinkResponse)
                 } catch (e: JsonSyntaxException) {
-                    Log.e("invalid json", jsonStr);
+                    Log.e("invalid json", jsonStr)
                     Toast.makeText(this@SktEasyLinkActivity, "invalid Json string", Toast.LENGTH_LONG).show()
                 }
             }
@@ -70,12 +70,12 @@ class SktEasyLinkActivity : AppCompatActivity() {
         private var networkReader: BufferedReader? = null
 
         override fun doInBackground(vararg params: EasyLinkResponse?): String {
-            val p0 : EasyLinkResponse = params.get(0)!!
+            val p0 : EasyLinkResponse = params[0]!!
             Log.d("SocketTask", p0.IP)
             try {
                 socket = Socket(p0.IP, 5000)
             } catch (e: Exception) {
-                Log.e("SocketTask", "Exception:" + e.toString())
+                Log.e("SocketTask", "Exception:$e")
             }
 
             networkReader = BufferedReader(InputStreamReader(socket!!.getInputStream()))
@@ -84,7 +84,7 @@ class SktEasyLinkActivity : AppCompatActivity() {
             val json = """
                 {"type":"REQ","code":"DP1200","key":"e7aa7f5e-15df-4ea1-9e7b-e4f05d2ac288","ip":"223.39.117.11","port":"31147","serviceid":"WINIXRND1D"}
             """.trimIndent()
-            val jsonByte = json.toString().toByteArray()
+            val jsonByte = json.toByteArray()
             val header: ByteArray = byteArrayOf(0x76,0x31,0x30,0x30,0x0,0x0,0x0,jsonByte.size.toByte())
             val payload: ByteArray = header + jsonByte
 

@@ -52,7 +52,7 @@ class SktEasyLinkActivity : AppCompatActivity() {
                 stopEasyLink(elp2p!!)
 
                 try {
-                    val easyLinkResponse: EasyLinkResponse = Gson().fromJson(jsonStr, EasyLinkResponse::class.java)
+                    val easyLinkResponse: EasyLinkResponse = Gson().fromJson(jsonStr.replace("[^\\x0A\\x0D\\x20-\\x7E]", ""), EasyLinkResponse::class.java)
                     SocketTask().execute(easyLinkResponse)
                 } catch (e: JsonSyntaxException) {
                     Log.e("invalid json", jsonStr);

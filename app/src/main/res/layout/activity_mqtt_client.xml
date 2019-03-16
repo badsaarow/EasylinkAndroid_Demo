@@ -31,12 +31,12 @@
         android:layout_height="wrap_content"
         android:text="Publish" />
 
-    <EditText
-        android:id="@+id/editTextSub"
+    <TextView
+        android:id="@+id/textViewSub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="Content"
-        android:editable="false"
+        android:enabled="false"
         android:ems="10"
         android:text="subscribe message" />
 </LinearLayout>

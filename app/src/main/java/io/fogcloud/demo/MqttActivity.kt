@@ -1,56 +1,48 @@
 package io.fogcloud.demo
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
-import org.w3c.dom.Text
 
-class MyCalllBack: MqttCallback {
+class MqttActivity : AppCompatActivity(), MqttCallback {
     private val TAG = "MqttActivity"
+    private var client: MqttClient? = null
+    private var textViewUrl : TextView? = null
+    private var textViewTopic : TextView? = null
+    private var editTextPub : EditText? = null
+    private var textViewSub : TextView? = null
+    private var buttonPub : Button? = null
 
-    override fun messageArrived(topic: String?, message: MqttMessage?) {
-        Log.d(TAG,"messageArrived")
+    override fun messageArrived(topic: String?, message: MqttMessage) {
+        var msg = message.toString()
+        Log.d(TAG,"messageArrived : " + msg)
+        Toast.makeText(this.applicationContext, msg, Toast.LENGTH_LONG).show()
+        textViewSub!!.setText(msg)
     }
 
     override fun connectionLost(cause: Throwable?) {
         Log.i(TAG,"connectionLost")
+        client?.connect()
     }
 
     override fun deliveryComplete(token: IMqttDeliveryToken?) {
         Log.i(TAG,"deliveryComplete")
     }
 
-}
-
-class MqttActivity : AppCompatActivity() {
-    private val TAG = "MqttActivity"
-    private var client: MqttClient? = null
-
-    private var callback: MyCalllBack? = null
-
-    private var textViewUrl : TextView? = null
-    private var textViewTopic : TextView? = null
-    private var editTextPub : EditText? = null
-    private var editTextSub : EditText? = null
-    private var buttonPub : Button? = null
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.i(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mqtt_client)
-
-        callback = MyCalllBack()
         textViewUrl = findViewById(R.id.textViewUrl) as TextView?
         textViewTopic = findViewById(R.id.textViewTopic) as TextView?
         editTextPub = findViewById(R.id.editTextPub) as EditText?
-        editTextSub = findViewById(R.id.editTextSub) as EditText?
+        textViewSub = findViewById(R.id.textViewSub) as TextView?
 
         buttonPub = findViewById(R.id.buttonPub) as Button?
 
@@ -82,7 +74,7 @@ class MqttActivity : AppCompatActivity() {
 
         try {
             Log.d(TAG, "now connecting... " + textViewUrl!!.text as String?)
-            client?.setCallback(this.callback)
+            client?.setCallback(this)
             client?.connect()
             client?.subscribe(topic, 1)
         } catch (ex: MqttException) {

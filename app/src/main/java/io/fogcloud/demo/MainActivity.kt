@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         //go to Mqtt Test
         val buttonGotoMqtt = findViewById(R.id.button_goto_mqtt) as Button?
         buttonGotoMqtt!!.setOnClickListener { view ->
-            val newIntent = Intent(this, LoginActivity::class.java)
+            val newIntent = Intent(this, MqttActivity::class.java)
             startActivity(newIntent)
         }
 

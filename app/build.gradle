@@ -38,6 +38,7 @@ dependencies {
     implementation 'io.fogcloud.sdk:easylinkv3:0.2.7'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {

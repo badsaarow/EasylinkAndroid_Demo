@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MqttActivity">
 
+    <TextView
+        android:id="@+id/textViewUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="tcp://test.mosquitto.org:1883" />
+
+    <TextView
+        android:id="@+id/textViewTopic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="/my/room" />
+
     <EditText
-        android:id="@+id/editText_topic_pub"
-        android:layout_width="wrap_content"
+        android:id="@+id/editTextPub"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="mico/test/send"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="56dp" />
-
-    <EditText
-        android:id="@+id/editText_pub_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="Content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Hello MQTT"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="114dp" />
-
+        android:text="publish message" />
     <Button
-        android:id="@+id/button_pub"
+        android:id="@+id/buttonPub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Publish"
-        tools:layout_editor_absoluteX="269dp"
-        tools:layout_editor_absoluteY="111dp" />
-</android.support.constraint.ConstraintLayout>
+        android:text="Publish" />
+    <EditText
+        android:id="@+id/editTextSub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Content"
+        android:text="subscribe message"
+        android:ems="10"/>
+</LinearLayout>

@@ -30,11 +30,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Publish" />
+
     <EditText
         android:id="@+id/editTextSub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="Content"
-        android:text="subscribe message"
-        android:ems="10"/>
+        android:editable="false"
+        android:ems="10"
+        android:text="subscribe message" />
 </LinearLayout>

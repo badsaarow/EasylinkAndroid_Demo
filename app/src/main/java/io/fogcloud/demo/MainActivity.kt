@@ -14,7 +14,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import com.google.firebase.analytics.FirebaseAnalytics
 import io.fogcloud.sdk.easylink.api.EasyLink
 import io.fogcloud.sdk.easylink.api.EasylinkP2P
 import io.fogcloud.sdk.easylink.helper.EasyLinkCallBack
@@ -25,8 +24,6 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "---main---"
     private var mContext: Context? = null
     private var log_view: EditText? = null
-
-    private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     internal var LHandler: Handler = object : Handler() {
         override fun handleMessage(msg: android.os.Message) {
@@ -47,8 +44,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mContext = this
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
-
         val el = EasyLink(this@MainActivity)
         val elp2p = EasylinkP2P(mContext)
 
@@ -84,7 +79,6 @@ class MainActivity : AppCompatActivity() {
                 val view = currentFocus
                 imm.hideSoftInputFromWindow(view!!.windowToken, 0)
 
-                sendFirebaseEvent(easylinktest.text.toString())
                 if (easylinktest.text.toString().equals("Start EasyLink", ignoreCase = true)) {
                     easylinktest.text = "Stop EasyLink"
                     Log.d(TAG, easylinktest.text.toString())
@@ -128,15 +122,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun sendFirebaseEvent(buttonText: String) {
-        val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "easylink")
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "button")
-        bundle.putString("content", "button clicked $buttonText")
-        mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
-
 
     private fun send2handler(code: Int, message: String) {
         Log.d(TAG, "send2handler code:$code, message:$message")

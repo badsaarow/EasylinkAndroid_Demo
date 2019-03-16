@@ -6,27 +6,24 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.AsyncTask
+import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
-
 import io.fogcloud.sdk.easylink.api.EasyLink
 import io.fogcloud.sdk.easylink.api.EasylinkP2P
 import io.fogcloud.sdk.easylink.helper.EasyLinkCallBack
 import io.fogcloud.sdk.easylink.helper.EasyLinkParams
-import java.io.*
-import java.lang.Exception
+import java.io.BufferedReader
+import java.io.DataOutputStream
+import java.io.InputStreamReader
 import java.net.Socket
 
 class SktEasyLinkActivity : AppCompatActivity() {
@@ -38,8 +35,6 @@ class SktEasyLinkActivity : AppCompatActivity() {
     private var elp2p: EasylinkP2P? = null
     private var psw : EditText? = null
     private var ssid : EditText? = null
-
-    private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     internal var LHandler: Handler = @SuppressLint("HandlerLeak")
     object : Handler() {
@@ -104,8 +99,6 @@ class SktEasyLinkActivity : AppCompatActivity() {
         setContentView(R.layout.activity_skt_easylink)
 
         mContext = this
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
-
         val el = EasyLink(this@SktEasyLinkActivity)
         elp2p = EasylinkP2P(mContext)
 
@@ -136,7 +129,6 @@ class SktEasyLinkActivity : AppCompatActivity() {
             val view = currentFocus
             imm.hideSoftInputFromWindow(view!!.windowToken, 0)
 
-            sendFirebaseEvent(textViewEasyLink!!.text.toString())
             if (textViewEasyLink!!.text.toString().equals("Start EasyLink", ignoreCase = true)) {
                 startEasyLink(ssid, psw, elp2p!!)
             } else {
@@ -190,15 +182,6 @@ class SktEasyLinkActivity : AppCompatActivity() {
             }
         })
     }
-
-    private fun sendFirebaseEvent(buttonText: String) {
-        val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "easylink")
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "button")
-        bundle.putString("content", "button clicked $buttonText")
-        mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
-
 
     private fun send2handler(code: Int, message: String) {
         Log.d(TAG, "send2handler code:" + code + ", message:" + message)

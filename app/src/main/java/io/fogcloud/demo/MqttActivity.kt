@@ -7,15 +7,32 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import org.eclipse.paho.client.mqttv3.MqttClient
-import org.eclipse.paho.client.mqttv3.MqttException
-import org.eclipse.paho.client.mqttv3.MqttMessage
+import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
 import org.w3c.dom.Text
+
+class MyCalllBack: MqttCallback {
+    private val TAG = "MqttActivity"
+
+    override fun messageArrived(topic: String?, message: MqttMessage?) {
+        Log.d(TAG,"messageArrived")
+    }
+
+    override fun connectionLost(cause: Throwable?) {
+        Log.i(TAG,"connectionLost")
+    }
+
+    override fun deliveryComplete(token: IMqttDeliveryToken?) {
+        Log.i(TAG,"deliveryComplete")
+    }
+
+}
 
 class MqttActivity : AppCompatActivity() {
     private val TAG = "MqttActivity"
     private var client: MqttClient? = null
+
+    private var callback: MyCalllBack? = null
 
     private var textViewUrl : TextView? = null
     private var textViewTopic : TextView? = null
@@ -29,6 +46,7 @@ class MqttActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mqtt_client)
 
+        callback = MyCalllBack()
         textViewUrl = findViewById(R.id.textViewUrl) as TextView?
         textViewTopic = findViewById(R.id.textViewTopic) as TextView?
         editTextPub = findViewById(R.id.editTextPub) as EditText?
@@ -60,9 +78,13 @@ class MqttActivity : AppCompatActivity() {
         val persistence = MemoryPersistence()
         client = MqttClient(textViewUrl!!.text as String?, "clientID", persistence)
 
+        val topic = textViewTopic!!.text.toString()
+
         try {
             Log.d(TAG, "now connecting... " + textViewUrl!!.text as String?)
+            client?.setCallback(this.callback)
             client?.connect()
+            client?.subscribe(topic, 1)
         } catch (ex: MqttException) {
             ex.printStackTrace()
         }

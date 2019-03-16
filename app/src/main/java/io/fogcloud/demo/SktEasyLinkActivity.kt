@@ -12,6 +12,7 @@ import android.os.Message
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -114,7 +115,7 @@ class SktEasyLinkActivity : AppCompatActivity() {
         }
 
         //go to Mqtt Test
-        val buttonGotoMqtt = findViewById(R.id.button_goto_mqtt)
+        val buttonGotoMqtt = findViewById(R.id.button_goto_mqtt) as Button?
         buttonGotoMqtt!!.setOnClickListener { view ->
             val newIntent = Intent(this, LoginActivity::class.java)
             startActivity(newIntent)

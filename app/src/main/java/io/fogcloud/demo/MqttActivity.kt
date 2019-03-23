@@ -21,7 +21,7 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
 
     override fun messageArrived(topic: String?, message: MqttMessage) {
         var msg = message.toString()
-        Log.d(TAG,"messageArrived : " + msg)
+        Log.d(TAG,"messageArrived : $msg")
         Toast.makeText(this.applicationContext, msg, Toast.LENGTH_LONG).show()
         textViewSub!!.setText(msg)
     }
@@ -53,7 +53,7 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
 
     fun pubMessage() {
         var msg : String = editTextPub!!.text.toString()
-        Log.i(TAG, "Pub Msg: " + msg)
+        Log.i(TAG, "Pub Msg: $msg")
 
         try {
             client?.publish(textViewTopic!!.text as String?, MqttMessage(msg!!.toByteArray()))
@@ -73,7 +73,9 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
         val topic = textViewTopic!!.text.toString()
 
         try {
-            Log.d(TAG, "now connecting... " + textViewUrl!!.text as String?)
+            val msg = "now connecting... " + textViewUrl!!.text as String?
+            Log.d(TAG, msg)
+            Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
             client?.setCallback(this)
             client?.connect()
             client?.subscribe(topic, 1)

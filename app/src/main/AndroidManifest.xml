@@ -27,9 +27,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
-        <activity
             android:name=".SktEasyLinkActivity"
             android:label="SKT EasyLink"></activity>
         <activity

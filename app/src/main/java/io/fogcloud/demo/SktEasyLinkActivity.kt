@@ -114,13 +114,6 @@ class SktEasyLinkActivity : AppCompatActivity() {
             editTextLog!!.setText("")
         }
 
-        //go to Mqtt Test
-        val buttonGotoMqtt = findViewById<Button>(R.id.button_goto_mqtt)
-        buttonGotoMqtt!!.setOnClickListener { view ->
-            val newIntent = Intent(this, MqttActivity::class.java)
-            startActivity(newIntent)
-        }
-
         if ((textViewEasyLink == null) or (ssid == null) or (psw == null)) {
             return
         }

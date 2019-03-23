@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".DemoListActivity"
+    tools:showIn="@layout/activity_demo_list">
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/text_margin"
+          android:text="Click below demos" />
+
+      <Button
+          android:id = "@+id/buttonEasyLink"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="EasyLink"/>
+
+      <Button
+          android:id = "@+id/buttonSktEasyLink"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="SKT EasyLink"/>
+
+      <Button
+          android:id = "@+id/buttonMqtt"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="MQTT"/>
+  </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

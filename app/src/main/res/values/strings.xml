@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MoMoIoT-easylink-mqtt</string>
+    <string name="title_activity_demo_list">MoMo IoT Demo List</string>
+    <string name="action_settings">Settings</string>
 </resources>

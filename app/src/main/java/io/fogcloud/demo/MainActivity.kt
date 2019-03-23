@@ -58,20 +58,6 @@ class MainActivity : AppCompatActivity() {
             editTextLogView!!.setText("")
         }
 
-        //go to Mqtt Test
-        val buttonGotoMqtt = findViewById<Button>(R.id.button_goto_mqtt)
-        buttonGotoMqtt!!.setOnClickListener { view ->
-            val newIntent = Intent(this, MqttActivity::class.java)
-            startActivity(newIntent)
-        }
-
-        //go to Skt EasyLink
-        val buttonGotoSktEasyLink = findViewById<Button>(R.id.button_goto_skt_easylink)
-        buttonGotoSktEasyLink!!.setOnClickListener { view ->
-            val newIntent = Intent(this, SktEasyLinkActivity::class.java)
-            startActivity(newIntent)
-        }
-
 
         if ((easylinktest != null) and (ssid != null) and (psw != null)) {
             easylinktest!!.setOnClickListener {

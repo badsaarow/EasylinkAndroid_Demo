@@ -23,16 +23,16 @@ class MainActivity : AppCompatActivity() {
 
     private val TAG = "---main---"
     private var mContext: Context? = null
-    private var log_view: EditText? = null
+    private var editTextLogView: EditText? = null
 
     internal var LHandler: Handler = object : Handler() {
         override fun handleMessage(msg: android.os.Message) {
             Log.d(TAG, "handleMessage what:" + msg.what)
             if (msg.what == 1) {
-                log_view!!.setText(msg.obj.toString().trim { it <= ' ' } + "\r\n")
+                editTextLogView!!.setText(msg.obj.toString().trim { it <= ' ' } + "\r\n")
             }
             if (msg.what == 2) {
-                log_view!!.setText("")
+                editTextLogView!!.setText("")
             }
         }
     }
@@ -53,9 +53,9 @@ class MainActivity : AppCompatActivity() {
         val ssid = findViewById<EditText>(R.id.ssid)
         ssid?.setText(el.ssid)
 
-        log_view = findViewById<EditText>(R.id.log)
-        if (log_view != null) {
-            log_view!!.setText("")
+        editTextLogView = findViewById(R.id.log)
+        if (editTextLogView != null) {
+            editTextLogView!!.setText("")
         }
 
         //go to Mqtt Test

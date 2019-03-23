@@ -88,7 +88,7 @@ class SktEasyLinkActivity : AppCompatActivity() {
             try {
                 dos.write(payload, 0, payload.size)
             } catch (e: Exception) {
-                Log.e("SocketTask", "Exception:" + e.toString())
+                Log.e("SocketTask", "Exception:$e")
             }
             return ""
         }
@@ -104,12 +104,12 @@ class SktEasyLinkActivity : AppCompatActivity() {
         elp2p = EasylinkP2P(mContext)
 
 
-        textViewEasyLink = findViewById<TextView>(R.id.easylinktest)
-        psw = findViewById<EditText>(R.id.psw)
-        ssid = findViewById<EditText>(R.id.ssid)
+        textViewEasyLink = findViewById(R.id.easylinktest)
+        psw = findViewById(R.id.psw)
+        ssid = findViewById(R.id.ssid)
         ssid?.setText(el.ssid)
 
-        editTextLog = findViewById<EditText>(R.id.log)
+        editTextLog = findViewById(R.id.log)
         if (editTextLog != null) {
             editTextLog!!.setText("")
         }
@@ -185,7 +185,7 @@ class SktEasyLinkActivity : AppCompatActivity() {
     }
 
     private fun send2handler(code: Int, message: String) {
-        Log.d(TAG, "send2handler code:" + code + ", message:" + message)
+        Log.d(TAG, "send2handler code: $code, message: $message")
 
         val msg = Message()
         msg.what = code

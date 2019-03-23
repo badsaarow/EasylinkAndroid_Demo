@@ -20,10 +20,10 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
     private var buttonPub : Button? = null
 
     override fun messageArrived(topic: String?, message: MqttMessage) {
-        var msg = message.toString()
+        val msg = message.toString()
         Log.d(TAG,"messageArrived : $msg")
         Toast.makeText(this.applicationContext, msg, Toast.LENGTH_LONG).show()
-        textViewSub!!.setText(msg)
+        textViewSub!!.text = msg
     }
 
     override fun connectionLost(cause: Throwable?) {
@@ -39,24 +39,24 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
         Log.i(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mqtt_client)
-        textViewUrl = findViewById<TextView>(R.id.textViewUrl)
-        textViewTopic = findViewById<TextView>(R.id.textViewTopic)
-        editTextPub = findViewById<EditText>(R.id.editTextPub)
-        textViewSub = findViewById<TextView>(R.id.textViewSub)
+        textViewUrl = findViewById(R.id.textViewUrl)
+        textViewTopic = findViewById(R.id.textViewTopic)
+        editTextPub = findViewById(R.id.editTextPub)
+        textViewSub = findViewById(R.id.textViewSub)
 
-        buttonPub = findViewById<Button>(R.id.buttonPub)
+        buttonPub = findViewById(R.id.buttonPub)
 
         buttonPub!!.setOnClickListener{ view ->
             pubMessage()
         }
     }
 
-    fun pubMessage() {
-        var msg : String = editTextPub!!.text.toString()
+    private fun pubMessage() {
+        val msg : String = editTextPub!!.text.toString()
         Log.i(TAG, "Pub Msg: $msg")
 
         try {
-            client?.publish(textViewTopic!!.text as String?, MqttMessage(msg!!.toByteArray()))
+            client?.publish(textViewTopic!!.text as String?, MqttMessage(msg.toByteArray()))
         } catch (ex: MqttException) {
             ex.printStackTrace()
         }

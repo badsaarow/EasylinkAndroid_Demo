@@ -39,12 +39,12 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
         Log.i(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mqtt_client)
-        textViewUrl = findViewById(R.id.textViewUrl) as TextView?
-        textViewTopic = findViewById(R.id.textViewTopic) as TextView?
-        editTextPub = findViewById(R.id.editTextPub) as EditText?
-        textViewSub = findViewById(R.id.textViewSub) as TextView?
+        textViewUrl = findViewById<TextView>(R.id.textViewUrl)
+        textViewTopic = findViewById<TextView>(R.id.textViewTopic)
+        editTextPub = findViewById<EditText>(R.id.editTextPub)
+        textViewSub = findViewById<TextView>(R.id.textViewSub)
 
-        buttonPub = findViewById(R.id.buttonPub) as Button?
+        buttonPub = findViewById<Button>(R.id.buttonPub)
 
         buttonPub!!.setOnClickListener{ view ->
             pubMessage()

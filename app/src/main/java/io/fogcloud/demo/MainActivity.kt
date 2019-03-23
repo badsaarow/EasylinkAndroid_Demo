@@ -48,25 +48,25 @@ class MainActivity : AppCompatActivity() {
         val elp2p = EasylinkP2P(mContext)
 
 
-        val easylinktest = findViewById(R.id.easylinktest) as TextView?
-        val psw = findViewById(R.id.psw) as EditText?
-        val ssid = findViewById(R.id.ssid) as EditText?
+        val easylinktest = findViewById<TextView>(R.id.easylinktest)
+        val psw = findViewById<EditText>(R.id.psw)
+        val ssid = findViewById<EditText>(R.id.ssid)
         ssid?.setText(el.ssid)
 
-        log_view = findViewById(R.id.log) as EditText?
+        log_view = findViewById<EditText>(R.id.log)
         if (log_view != null) {
             log_view!!.setText("")
         }
 
         //go to Mqtt Test
-        val buttonGotoMqtt = findViewById(R.id.button_goto_mqtt) as Button?
+        val buttonGotoMqtt = findViewById<Button>(R.id.button_goto_mqtt)
         buttonGotoMqtt!!.setOnClickListener { view ->
             val newIntent = Intent(this, MqttActivity::class.java)
             startActivity(newIntent)
         }
 
         //go to Skt EasyLink
-        val buttonGotoSktEasyLink = findViewById(R.id.button_goto_skt_easylink) as Button?
+        val buttonGotoSktEasyLink = findViewById<Button>(R.id.button_goto_skt_easylink)
         buttonGotoSktEasyLink!!.setOnClickListener { view ->
             val newIntent = Intent(this, SktEasyLinkActivity::class.java)
             startActivity(newIntent)

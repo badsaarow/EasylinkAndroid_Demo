@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:focusableInTouchMode="true"
-    tools:context="io.fogcloud.demo.MainActivity"
+    tools:context="io.fogcloud.demo.EasyLinkActivity"
     android:weightSum="1">
 
     <EditText

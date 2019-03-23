@@ -13,7 +13,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
 
 class MqttActivity : AppCompatActivity(), MqttCallback {
     private val TAG = "MqttActivity"
-    private var client: MqttClient? = null
+    private lateinit var client: MqttClient
     private var textViewUrl : TextView? = null
     private var textViewTopic : TextView? = null
     private var editTextPub : EditText? = null
@@ -53,11 +53,13 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
             pubMessage()
         }
 
+        val persistence = MemoryPersistence()
+        client = MqttClient(textViewUrl!!.text as String?, "clientID", persistence)
+
         buttonConnect = findViewById(R.id.buttonConnect)
         buttonConnect!!.setOnClickListener{ view ->
 
-            val persistence = MemoryPersistence()
-            client = MqttClient(textViewUrl!!.text as String?, "clientID", persistence)
+
 
             val topic = textViewTopic!!.text.toString()
 
@@ -65,9 +67,9 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
                 val msg = "now connecting... " + textViewUrl!!.text as String?
                 Log.d(TAG, msg)
                 Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
-                client?.setCallback(this)
-                client?.connect()
-                client?.subscribe(topic, 1)
+                client.setCallback(this)
+                client.connect()
+                client.subscribe(topic, 1)
 
                 buttonConnect!!.visibility = View.GONE
                 buttonDisconnect!!.visibility = View.VISIBLE
@@ -79,7 +81,9 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
 
         buttonDisconnect = findViewById(R.id.buttonDisconnect)
         buttonDisconnect!!.setOnClickListener{ view ->
-            client?.disconnect()
+            if (client.isConnected) {
+                client.disconnect()
+            }
         }
     }
 
@@ -87,8 +91,13 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
         val msg : String = editTextPub!!.text.toString()
         Log.i(TAG, "Pub Msg: $msg")
 
+        if (!client.isConnected) {
+            Toast.makeText(this, "Not Connected", Toast.LENGTH_LONG).show()
+            return
+        }
+
         try {
-            client?.publish(textViewTopic!!.text as String?, MqttMessage(msg.toByteArray()))
+            client.publish(textViewTopic!!.text as String?, MqttMessage(msg.toByteArray()))
         } catch (ex: MqttException) {
             ex.printStackTrace()
             Toast.makeText(this, "$ex", Toast.LENGTH_LONG).show()
@@ -106,8 +115,9 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
 
     override fun onPause() {
         Log.i(TAG, "onPause")
-        client?.disconnect()
-
+        if (client.isConnected) {
+            client.disconnect()
+        }
         super.onPause()
     }
 }

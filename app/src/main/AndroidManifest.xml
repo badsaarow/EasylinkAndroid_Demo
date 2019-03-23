@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".EasyLinkActivity"
             android:label="MoMo IoT EasyLink"/>
         <activity
             android:name=".SktEasyLinkActivity"

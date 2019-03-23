@@ -24,7 +24,7 @@ class DemoListActivity : AppCompatActivity() {
 
         buttonEasyLink = findViewById(R.id.buttonEasyLink)
         buttonEasyLink!!.setOnClickListener{ view ->
-            val newIntent = Intent(this, MainActivity::class.java)
+            val newIntent = Intent(this, EasyLinkActivity::class.java)
             startActivity(newIntent)
         }
 

@@ -2,7 +2,6 @@ package io.fogcloud.demo
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -10,7 +9,6 @@ import android.os.Message
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -19,7 +17,7 @@ import io.fogcloud.sdk.easylink.api.EasylinkP2P
 import io.fogcloud.sdk.easylink.helper.EasyLinkCallBack
 import io.fogcloud.sdk.easylink.helper.EasyLinkParams
 
-class MainActivity : AppCompatActivity() {
+class EasyLinkActivity : AppCompatActivity() {
 
     private val TAG = "---main---"
     private var mContext: Context? = null
@@ -41,10 +39,10 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate()")
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_easylink)
 
         mContext = this
-        val el = EasyLink(this@MainActivity)
+        val el = EasyLink(this@EasyLinkActivity)
         val elp2p = EasylinkP2P(mContext)
 
 

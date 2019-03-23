@@ -12,7 +12,10 @@ import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence
 
 class MqttActivity : AppCompatActivity(), MqttCallback {
-    private val TAG = "MqttActivity"
+    companion object {
+        const val TAG = "MqttActivity"
+    }
+
     private lateinit var client: MqttClient
     private lateinit var textViewUrl : TextView
     private lateinit var textViewTopic : TextView
@@ -21,6 +24,46 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
     private lateinit var buttonPub : Button
     private lateinit var buttonConnect : Button
     private lateinit var buttonDisconnect : Button
+
+    private fun bindResource() {
+        textViewUrl = findViewById(R.id.textViewUrl)
+        textViewTopic = findViewById(R.id.textViewTopic)
+        editTextPub = findViewById(R.id.editTextPub)
+        textViewSub = findViewById(R.id.textViewSub)
+
+        buttonPub = findViewById(R.id.buttonPub)
+        buttonConnect = findViewById(R.id.buttonConnect)
+        buttonDisconnect = findViewById(R.id.buttonDisconnect)
+
+        buttonPub.setOnClickListener{ view ->
+            pubMessage()
+        }
+
+        buttonConnect.setOnClickListener{ view ->
+            val topic = textViewTopic.text.toString()
+
+            try {
+                val msg = "now connecting... " + textViewUrl.text as String?
+                Log.d(TAG, msg)
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+                client.setCallback(this)
+                client.connect()
+                client.subscribe(topic, 1)
+
+                buttonConnect.visibility = View.GONE
+                buttonDisconnect.visibility = View.VISIBLE
+            } catch (ex: MqttException) {
+                ex.printStackTrace()
+                Toast.makeText(this, "$ex", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        buttonDisconnect.setOnClickListener{ view ->
+            if (client.isConnected) {
+                client.disconnect()
+            }
+        }
+    }
 
     override fun messageArrived(topic: String?, message: MqttMessage) {
         val msg = message.toString()
@@ -43,48 +86,11 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
         Log.i(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mqtt_client)
-        textViewUrl = findViewById(R.id.textViewUrl)
-        textViewTopic = findViewById(R.id.textViewTopic)
-        editTextPub = findViewById(R.id.editTextPub)
-        textViewSub = findViewById(R.id.textViewSub)
 
-        buttonPub = findViewById(R.id.buttonPub)
-        buttonPub.setOnClickListener{ view ->
-            pubMessage()
-        }
+        bindResource()
 
         val persistence = MemoryPersistence()
         client = MqttClient(textViewUrl.text as String?, "clientID", persistence)
-
-        buttonConnect = findViewById(R.id.buttonConnect)
-        buttonConnect.setOnClickListener{ view ->
-
-
-
-            val topic = textViewTopic.text.toString()
-
-            try {
-                val msg = "now connecting... " + textViewUrl.text as String?
-                Log.d(TAG, msg)
-                Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
-                client.setCallback(this)
-                client.connect()
-                client.subscribe(topic, 1)
-
-                buttonConnect.visibility = View.GONE
-                buttonDisconnect.visibility = View.VISIBLE
-            } catch (ex: MqttException) {
-                ex.printStackTrace()
-                Toast.makeText(this, "$ex", Toast.LENGTH_LONG).show()
-            }
-        }
-
-        buttonDisconnect = findViewById(R.id.buttonDisconnect)
-        buttonDisconnect.setOnClickListener{ view ->
-            if (client.isConnected) {
-                client.disconnect()
-            }
-        }
     }
 
     private fun pubMessage() {

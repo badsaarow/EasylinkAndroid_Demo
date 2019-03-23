@@ -3,6 +3,7 @@ package io.fogcloud.demo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -18,6 +19,8 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
     private var editTextPub : EditText? = null
     private var textViewSub : TextView? = null
     private var buttonPub : Button? = null
+    private var buttonConnect : Button? = null
+    private var buttonDisconnect : Button? = null
 
     override fun messageArrived(topic: String?, message: MqttMessage) {
         val msg = message.toString()
@@ -28,7 +31,8 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
 
     override fun connectionLost(cause: Throwable?) {
         Log.i(TAG,"connectionLost")
-        client?.connect()
+        buttonConnect!!.visibility = View.VISIBLE
+        buttonDisconnect!!.visibility = View.GONE
     }
 
     override fun deliveryComplete(token: IMqttDeliveryToken?) {
@@ -45,9 +49,37 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
         textViewSub = findViewById(R.id.textViewSub)
 
         buttonPub = findViewById(R.id.buttonPub)
-
         buttonPub!!.setOnClickListener{ view ->
             pubMessage()
+        }
+
+        buttonConnect = findViewById(R.id.buttonConnect)
+        buttonConnect!!.setOnClickListener{ view ->
+
+            val persistence = MemoryPersistence()
+            client = MqttClient(textViewUrl!!.text as String?, "clientID", persistence)
+
+            val topic = textViewTopic!!.text.toString()
+
+            try {
+                val msg = "now connecting... " + textViewUrl!!.text as String?
+                Log.d(TAG, msg)
+                Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+                client?.setCallback(this)
+                client?.connect()
+                client?.subscribe(topic, 1)
+
+                buttonConnect!!.visibility = View.GONE
+                buttonDisconnect!!.visibility = View.VISIBLE
+            } catch (ex: MqttException) {
+                ex.printStackTrace()
+                Toast.makeText(this, "$ex", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        buttonDisconnect = findViewById(R.id.buttonDisconnect)
+        buttonDisconnect!!.setOnClickListener{ view ->
+            client?.disconnect()
         }
     }
 
@@ -59,6 +91,7 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
             client?.publish(textViewTopic!!.text as String?, MqttMessage(msg.toByteArray()))
         } catch (ex: MqttException) {
             ex.printStackTrace()
+            Toast.makeText(this, "$ex", Toast.LENGTH_LONG).show()
         }
 
     }
@@ -67,22 +100,8 @@ class MqttActivity : AppCompatActivity(), MqttCallback {
         Log.i(TAG, "onResume")
         super.onResume()
 
-        val persistence = MemoryPersistence()
-        client = MqttClient(textViewUrl!!.text as String?, "clientID", persistence)
-
-        val topic = textViewTopic!!.text.toString()
-
-        try {
-            val msg = "now connecting... " + textViewUrl!!.text as String?
-            Log.d(TAG, msg)
-            Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
-            client?.setCallback(this)
-            client?.connect()
-            client?.subscribe(topic, 1)
-        } catch (ex: MqttException) {
-            ex.printStackTrace()
-        }
-
+        buttonConnect!!.visibility = View.VISIBLE
+        buttonDisconnect!!.visibility = View.GONE
     }
 
     override fun onPause() {
